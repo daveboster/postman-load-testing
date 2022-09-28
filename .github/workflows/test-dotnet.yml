@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        dotnet-version: ['6.x']
+        dotnet: ['6.x']
 
     steps:
       - name: Git Checkout
@@ -28,8 +28,8 @@ jobs:
       - name: Setup .Net
         uses: actions/setup-dotnet@v2
         with:
-          dotnet-version: '6.x'
+          dotnet-version: ${{ matrix.dotnet }}
       - name: Solution Build
         run: dotnet build TaskSample/TaskSample.sln --configuration Release
       - name: Solution Test
-        run: dotnet test TaskSample/TaskSample.sln --no-build --no-restore --verbosity normal --framework ${{ matrix.dotnet-version }}
+        run: dotnet test TaskSample/TaskSample.sln --no-build --no-restore --verbosity normal --framework ${{ matrix.dotnet }}
