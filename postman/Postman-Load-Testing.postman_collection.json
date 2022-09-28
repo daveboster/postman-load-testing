@@ -1,0 +1,135 @@
+{
+	"info": {
+		"_postman_id": "745f7f72-0432-4728-a773-1adc480b7797",
+		"name": "Postman Load Testing",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23560414"
+	},
+	"item": [
+		{
+			"name": "Task - Create",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Create task with title property', function () {",
+							"    var jsonResponse = JSON.parse(responseBody);",
+							"    pm.expect(jsonResponse.title).to.equal('Test');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "accept",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{task-api-base-url}}/tasks/create?title=Test",
+					"host": [
+						"{{task-api-base-url}}"
+					],
+					"path": [
+						"tasks",
+						"create"
+					],
+					"query": [
+						{
+							"key": "title",
+							"value": "Test"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Task - Create",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{task-api-base-url}}/tasks/create?title=Test",
+							"host": [
+								"{{task-api-base-url}}"
+							],
+							"path": [
+								"tasks",
+								"create"
+							],
+							"query": [
+								{
+									"key": "title",
+									"value": "Test"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 28 Sep 2022 14:41:43 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Kestrel"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"title\": \"Test\"\n}"
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.test('Status code is 200', function () {",
+					"    pm.response.to.have.status(200);",
+					"});",
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "task-api-base-url",
+			"value": "https://localhost:7053",
+			"type": "string"
+		}
+	]
+}
