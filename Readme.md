@@ -24,6 +24,7 @@ This is a proof of concept for taking API calls using the Postman collections to
 ## References
 - [Postman](https://www.postman.com) - an API platform for building and using APIs.
 - [Newman](https://github.com/postmanlabs/newman) - a command-line collection runner for Postman.
+- [Comparing Postman CLI and Newman](https://learning.postman.com/docs/postman-cli/postman-cli-overview/)
 - [Grafana k6]() - an open-source load testing tool that makes performance testing easy and productive for engineering teams. k6 is free, developer-centric, and extensible.
 - [postman-to-k6](https://github.com/apideck-libraries/postman-to-k6) - utilizes Postman collections and converts Postman requests, including tests, variables, ... to K6 scripts that can be executed by K6 to run performance tests.
 - [Tutorial: Create a minimal web API with ASP.NET Core](https://learn.microsoft.com/en-us/aspnet/core/tutorials/min-web-api?view=aspnetcore-6.0&tabs=visual-studio-code)
