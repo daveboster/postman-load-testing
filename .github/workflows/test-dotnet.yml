@@ -16,14 +16,6 @@ on:
       - '**.md'
 
 jobs:
-  setup-version:
-    runs-on: ${{ matrix.operating-system }}
-    strategy:
-      fail-fast: false
-      matrix:
-        operating-system: [ubuntu-latest]
-        dotnet-version: ['6.0.x']
-
   build:
     runs-on: ubuntu-latest
     strategy:
@@ -31,21 +23,8 @@ jobs:
         dotnet-version: ['6.x']
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Setup dotnet ${{ matrix.dotnet-version }}
-        uses: actions/setup-dotnet@v3
+      - uses: actions/checkout@v3
+      - uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: ${{ matrix.dotnet-version }}
-      - name: Check installed version
-        shell: pwsh
-        run: |
-          $version = & dotnet --version
-          Write-Host "Installed version: $version"
-          if (-not $version.StartsWith("${{ matrix.dotnet-version }}")) { throw "Unexpected version" }
-      - name: Install dependencies
-        run: dotnet restore
-      - name: Build
-        run: dotnet build --configuration Release --no-restore
-      - name: Test
-        run: dotnet test --no-restore --verbosity normal
+          dotnet-version: '6.x'
+      - run: dotnet build TaskSample/TaskSample.sln 
