@@ -23,8 +23,13 @@ jobs:
         dotnet-version: ['6.x']
 
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-dotnet@v2
+      - name: Git Checkout
+        uses: actions/checkout@v3
+      - name: Setup .Net
+        uses: actions/setup-dotnet@v2
         with:
           dotnet-version: '6.x'
-      - run: dotnet build TaskSample/TaskSample.sln 
+      - name: Solution Build
+        run: dotnet build TaskSample/TaskSample.sln 
+      - name: Solution Test
+        run: dotnet test TaskSample/TaskSample.sln 
