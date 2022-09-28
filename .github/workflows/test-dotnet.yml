@@ -1,0 +1,51 @@
+name: Test dotnet
+
+# References:
+#  - https://github.com/actions/setup-dotnet/blob/main/.github/workflows/test-dotnet.yml
+#  - https://github.com/marketplace/actions/setup-net-core-sdk
+
+on:
+  pull_request:
+    paths-ignore:
+      - '**.md'
+  push:
+    branches:
+      - main
+      - releases/*
+    paths-ignore:
+      - '**.md'
+
+jobs:
+  setup-version:
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      fail-fast: false
+      matrix:
+        operating-system: [ubuntu-latest]
+        dotnet-version: ['6.0.x']
+
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        dotnet-version: ['6.x']
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup dotnet ${{ matrix.dotnet-version }}
+        uses: ./
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
+      - name: Check installed version
+        shell: pwsh
+        run: |
+          $version = & dotnet --version
+          Write-Host "Installed version: $version"
+          if (-not $version.StartsWith("${{ matrix.dotnet-version }}")) { throw "Unexpected version" }
+      - name: Install dependencies
+        run: dotnet restore
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+      - name: Test
+        run: dotnet test --no-restore --verbosity normal
