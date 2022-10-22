@@ -1,4 +1,4 @@
-name: Test dotnet
+name: Build and Test
 
 # References:
 #  - https://github.com/actions/setup-dotnet/blob/main/.github/workflows/test-dotnet.yml
@@ -23,15 +23,27 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest]
         dotnet: ['6.x']
+        include:
+          - os: ubuntu-latest
+            dotnet: '6.x'
+            publish: true
 
     steps:
       - name: Git Checkout
         uses: actions/checkout@v3
+        
       - name: Setup .Net
         uses: actions/setup-dotnet@v2
         with:
           dotnet-version: ${{ matrix.dotnet }}
-      - name: Solution Build
+          
+      - name: Build with dotnet
         run: dotnet build TaskSample/TaskSample.sln --configuration Release
-      - name: Solution Test
+        
+      - name: Test with dotnet
         run: dotnet test TaskSample/TaskSample.sln --configuration Release --no-build --no-restore --verbosity normal
+        
+      - name: Publish with dotnet
+        if: ${{ matrix.publish == 'true' }}
+        run: dotnet publish TaskSample/TaskApi/TaskApi.csproj -c Release -o ${{env.DOTNET_ROOT}}/task-api
+
