@@ -4,10 +4,15 @@
 name: Build and deploy ASP.Net Core app to Azure Web App - postman-load-test
 
 on:
+  pull_request:
+    paths-ignore:
+      - '**.md'
   push:
     branches:
       - main
-  workflow_dispatch:
+      - releases/*
+    paths-ignore:
+      - '**.md'
 
 jobs:
   build:
@@ -24,8 +29,11 @@ jobs:
 
       - name: Build with dotnet
         run: dotnet build TaskSample/TaskSample.sln --configuration Release
-
-      - name: dotnet publish
+      
+      - name: Unit tests
+        run: dotnet test TaskSample/TaskSample.sln --configuration Release --no-build --no-restore --verbosity normal
+        
+      - name: Publish with dotnet
         run: dotnet publish TaskSample/TaskApi/TaskApi.csproj -c Release -o ${{env.DOTNET_ROOT}}/task-api
 
       - name: Upload artifact for deployment job
