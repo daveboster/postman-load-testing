@@ -8,12 +8,14 @@ on:
   pull_request:
     paths-ignore:
       - '**.md'
+      - '.vscode'
   push:
     branches:
       - main
       - releases/*
     paths-ignore:
       - '**.md'
+      - '.vscode'
 
 jobs:
   build:
