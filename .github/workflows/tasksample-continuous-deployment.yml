@@ -4,16 +4,9 @@
 name: Task Sample - Build & Deploy Azure Web App
 
 on:
-  pull_request:
+  push:
     branches:
       - main
-    paths:
-      - 'TaskSample/**'
-      - '.github/workflows/tasksample-continuous-deployment.yml'
-      - '!TaskSample/README.md'
-      - '!TaskSample/**/README.md'
-      - '!**.md'
-  push:
     paths:
       - 'TaskSample/**'
       - '.github/workflows/tasksample-continuous-deployment.yml'
@@ -47,7 +40,6 @@ jobs:
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
-        if: github.ref == 'refs/heads/main' && github.event_name == "push"
         with:
           name: .net-app
           path: ${{env.DOTNET_ROOT}}/task-api
