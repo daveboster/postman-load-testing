@@ -6,6 +6,9 @@ name: Build and Test
 
 on:
   pull_request:
+    branches:
+      - main
+      - releases/*
     paths-ignore:
       - '**.md'
   push:
