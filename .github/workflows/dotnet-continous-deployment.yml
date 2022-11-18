@@ -4,28 +4,29 @@
 name: Build and deploy ASP.Net Core app to Azure Web App - postman-load-test
 
 on:
-  pull_request:
-    paths-ignore:
-      - '**.md'
   push:
     branches:
       - main
-      - releases/*
-    paths-ignore:
-      - '**.md'
+    paths:
+      - 'TaskSample/**'
+      - '!TaskSample/README.md'
+      - '!TaskSample/**/README.md'
 
 jobs:
   build:
-    runs-on: windows-latest
+    name: Build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        dotnet: ['6.x']
 
     steps:
       - uses: actions/checkout@v2
 
-      - name: Set up .NET Core
-        uses: actions/setup-dotnet@v1
+      - name: Setup DotNet
+        uses: actions/setup-dotnet@v2
         with:
-          dotnet-version: '6.0.x'
-          include-prerelease: true
+          dotnet-version: ${{ matrix.dotnet }}
 
       - name: Build with dotnet
         run: dotnet build TaskSample/TaskSample.sln --configuration Release
@@ -43,7 +44,7 @@ jobs:
           path: ${{env.DOTNET_ROOT}}/task-api
 
   deploy:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     needs: build
     environment:
       name: 'Production'
