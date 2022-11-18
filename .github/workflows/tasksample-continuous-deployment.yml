@@ -9,7 +9,7 @@ on:
       - main
     paths:
       - 'TaskSample/**'
-      - 'tasksample-continuous-deployment.yml'
+      - '.github/workflows/tasksample-continuous-deployment.yml'
       - '!TaskSample/README.md'
       - '!TaskSample/**/README.md'
 
