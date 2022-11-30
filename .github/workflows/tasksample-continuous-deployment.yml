@@ -10,8 +10,8 @@ on:
     paths:
       - 'TaskSample/**'
       - '.github/workflows/tasksample-continuous-deployment.yml'
-      - '!TaskSample/*.md'
-      - '!TaskSample/**/*.md'
+      - '!TaskSample/README.md'
+      - '!TaskSample/**/README.md'
 
 jobs:
   build:
@@ -52,11 +52,6 @@ jobs:
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
-      - name: Pre-Deploy API Smoke Tests
-        shell: pwsh
-        run: |
-          ./pester-api-testing/Invoke-ApiSmokeTests.ps1 -IntegrationBaseUrl 'https://postman-load-test.azurewebsites.net/' -PassThru
-
       - name: Download artifact from build job
         uses: actions/download-artifact@v2
         with:
@@ -70,8 +65,3 @@ jobs:
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_D9DBBBE598ED417CB229521A90400964 }}
           package: .
-
-      - name: Post-Deploy API Smoke Tests
-        shell: pwsh
-        run: |
-          ./pester-api-testing/Invoke-ApiSmokeTests.ps1 -IntegrationBaseUrl 'https://postman-load-test.azurewebsites.net/' -PassThru
