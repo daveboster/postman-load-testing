@@ -16,7 +16,7 @@ on:
       - '**.md'
   push:
     branches:
-      - *
+      - '*'
     paths:
       - 'pester-api-testing/**'
       - '.github/workflows/pester-api-testing-build.yml'
