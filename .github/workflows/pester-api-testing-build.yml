@@ -12,16 +12,14 @@ on:
     paths:
       - 'pester-api-testing/**'
       - '.github/workflows/pester-api-testing-build.yml'
-    paths-ignore:
-      - '**.md'
+      - '!pester-api-testing/**/*.md'
   push:
     branches:
       - '*'
     paths:
       - 'pester-api-testing/**'
       - '.github/workflows/pester-api-testing-build.yml'
-    paths-ignore:
-      - '**.md'
+      - '!pester-api-testing/**/*.md'
 
 jobs:
   pester-test:
