@@ -20,6 +20,7 @@ Describe "Creating Tasks for '$IntegrationBaseUrl'" {
         $expectedTitle = "Test";
 
         $response = Add-ApiResource "tasks/create?title=$($expectedTitle)"
+        $response | Should -Not -BeNull
     }
 
     It 'It should return a successful response' {

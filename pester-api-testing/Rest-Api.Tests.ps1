@@ -23,6 +23,7 @@ Describe 'Add-ApiResource' {
     Context 'Unit Tests'  -Tag 'unit' {
         BeforeAll {
             $commandUnderTest = "Add-ApiResource"
+            $commandUnderTest | Should -Not -BeNullOrEmpty
         }
 
         It "Should provide help synopsis that is not auto-generated" {
@@ -71,6 +72,7 @@ Describe 'Add-ApiResource' {
 
             $expectedTitle = "Test";
             $response = Add-ApiResource "tasks/create?title=$($expectedTitle)"
+            $response | Should -Not -BeNull
         }
     
         It 'It should return a successful response' {
@@ -88,8 +90,8 @@ Describe 'Add-ApiResource' {
             # Set helper base-url from parameter
             Set-ApiBaseUrl -Url $IntegrationBaseUrl
 
-            $expectedTitle = "Test";
             $response = Add-ApiResource "MayIHaveA404For1000PleaseAlex"
+            $response | Should -Not -BeNull
         }
     
         It 'It should return a 404 response' {
@@ -101,6 +103,7 @@ Describe 'Add-ApiResource' {
 Describe 'Get-ApiResource' {
     BeforeAll {
         $commandUnderTest = "Get-ApiResource"
+        $commandUnderTest | Should -Not -BeNullOrEmpty
     }
 
     Context 'Unit Tests' -Tag 'unit' {
@@ -144,8 +147,8 @@ Describe 'Get-ApiResource' {
             # Set helper base-url from parameter
             Set-ApiBaseUrl -Url $IntegrationBaseUrl
 
-            $expectedTitle = "Test";
             $response = Add-ApiResource "MayIHaveA404For1000PleaseAlex"
+            $response | Should -Not -BeNull
         }
     
         It 'It should return a 404 response' {
