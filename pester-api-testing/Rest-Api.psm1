@@ -1,6 +1,8 @@
 # Credit to [Derek Graham](https://github.com/deejaygraham) for the original code
 # https://deejaygraham.github.io/2019/05/27/using-pester-for-api-testing/
 
+# Add -SkipHttpErrorCheck to Invoke-RestMethod to avoid throwing an exception on non-200 responses
+
 Set-StrictMode -Version Latest
 
 [string]$script:BaseUrl =  'https://localhost:7053/'
@@ -20,18 +22,10 @@ Function Set-ApiBaseUrl {
 	$script:BaseUrl = $Url
 }
 
-
-Function Set-ApiHeaders {
-    [CmdletBinding()]
-    Param (
-		[Parameter(Mandatory=$True)]
-		[hashtable]$Headers
-    )
-
-	$script:Headers = $Headers
-}
-
-
+<#
+.SYNOPSIS
+Submit a GET request to the specified resource
+#>
 Function Get-ApiResource {
     [CmdletBinding()]
     Param (
@@ -39,62 +33,31 @@ Function Get-ApiResource {
         [string]$Resource
     )
 
-    $Response = Invoke-RestMethod -Method Get -Uri "$($script:BaseUrl)$Resource" -Headers $script:Headers
+    $Response = Invoke-RestMethod -Method Get -Uri "$($script:BaseUrl)$Resource" -SkipHttpErrorCheck
 
     Write-Output $Response
 }   
 
 <#
 .SYNOPSIS
-Submits a POST request to the specified resource
+Submit a POST request to the specified resource
 #>
 Function Add-ApiResource {
     [CmdletBinding()]
     Param(
-        [Parameter(Mandatory=$True, Position=0)]
+        [Parameter(Mandatory=$True)]
         [string]$Resource,
 
-    	[Parameter(Mandatory=$False, Position=1)]
+    	[Parameter(Mandatory=$False)]
 	    [hashtable]$Body
     )
 
     if($Body) {
         $Json = $Body | ConvertTo-Json
-        $Response = Invoke-RestMethod -Method Post -Uri "$($script:BaseUrl)$Resource" -Body $Json -Headers $script:Headers
+        $Response = Invoke-WebRequest -Method Post -Uri "$($script:BaseUrl)$Resource" -Body $Json -Headers $script:Headers -SkipHttpErrorCheck 
     } else {
-        $Response = Invoke-RestMethod -Method Post -Uri "$($script:BaseUrl)$Resource" -Headers $script:Headers
+        $Response = Invoke-WebRequest -Method Post -Uri "$($script:BaseUrl)$Resource" -Headers $script:Headers -SkipHttpErrorCheck 
     }
-    # $Response = Invoke-RestMethod -Method Post -Uri "$($script:BaseUrl)$Resource" -Headers $script:Headers -Body $Json -ContentType 'application/json'
-
-    Write-Output $Response
-}
-
-
-Function Set-ApiResource {
-    [CmdletBinding()]
-    Param(
-        [Parameter(Mandatory=$True, Position=0)]
-        [string]$Resource,
-
-    	[Parameter(Mandatory=$True, Position=1)]
-	    [hashtable]$Body
-    )
-
-    $Json = $Body | ConvertTo-Json
-    $Response = Invoke-RestMethod -Method Put -Uri "$($script:BaseUrl)$Resource" -Headers $script:Headers -Body $Json -ContentType 'application/json'
-
-    Write-Output $Response
-}
-
-
-Function Remove-ApiResource {
-    [CmdletBinding()]
-    Param(
-        [Parameter(Mandatory=$True, Position=0)]
-        [string]$Resource
-    )
-
-    $Response = Invoke-RestMethod -Method Delete -Uri "$($script:BaseUrl)$Resource" -Headers $script:Headers
 
     Write-Output $Response
 }

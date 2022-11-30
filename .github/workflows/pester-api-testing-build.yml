@@ -29,12 +29,12 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v3
 
-      - name: Run Rest-Api Module Tests
+      - name: Run Rest-Api Helper Unit and Integration Tests
         shell: pwsh
         run: |
-          Invoke-Pester -Path ./pester-api-testing/Rest-Api.Tests.ps1 -Passthru
+          ./pester-api-testing/Invoke-RestApi-Tests.ps1 -IntegrationBaseUrl  'https://postman-load-test.azurewebsites.net/' -PassThru 
 
       - name: Validate Api Tests Against Production 🤨
         shell: pwsh
         run: |
-          ./pester-api-testing/Invoke-ApiTests-Prod.ps1 -Passthru
+          ./pester-api-testing/Invoke-ApiSmokeTests.ps1 -IntegrationBaseUrl 'https://postman-load-test.azurewebsites.net/' -PassThru
