@@ -9,14 +9,18 @@ on:
     branches:
       - main
       - releases/*
-    paths-ignore:
-      - '**.md'
+    paths:
+      - 'TaskSample/**'
+      - '.github/workflows/build-test.yml'
+      - '!TaskSample/**/*.md'
   push:
     branches:
       - main
       - releases/*
-    paths-ignore:
-      - '**.md'
+    paths:
+      - 'TaskSample/**'
+      - '.github/workflows/build-test.yml'
+      - '!TaskSample/**/*.md'
 
 jobs:
   build:

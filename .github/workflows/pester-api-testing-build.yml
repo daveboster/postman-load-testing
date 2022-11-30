@@ -1,0 +1,42 @@
+name: Build and Test
+
+# References:
+#  - https://github.com/actions/setup-dotnet/blob/main/.github/workflows/test-dotnet.yml
+#  - https://github.com/marketplace/actions/setup-net-core-sdk
+
+on:
+  pull_request:
+    branches:
+      - main
+      - releases/*
+    paths:
+      - 'pester-api-testing/**'
+      - '.github/workflows/pester-api-testing-build.yml'
+    paths-ignore:
+      - '**.md'
+  push:
+    branches:
+      - *
+    paths:
+      - 'pester-api-testing/**'
+      - '.github/workflows/pester-api-testing-build.yml'
+    paths-ignore:
+      - '**.md'
+
+jobs:
+  pester-test:
+    name: PowerShell Api Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+
+      - name: Run Rest-Api Module Tests
+        shell: pwsh
+        run: |
+          Invoke-Pester -Path ./pester-api-testing/Rest-Api.Tests.ps1 -Passthru
+
+      - name: Validate Api Tests Against Production 🤨
+        shell: pwsh
+        run: |
+          ./pester-api-testing/Invoke-ApiTests-Prod.ps1 -Passthru
