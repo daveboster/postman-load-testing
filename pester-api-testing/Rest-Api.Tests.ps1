@@ -23,7 +23,7 @@ Describe 'Add-ApiResource' {
     Context 'Unit Tests'  -Tag 'unit' {
         BeforeAll {
             $commandUnderTest = "Add-ApiResource"
-            $commandUnderTest | Should -Not -BeNullOrEmpty
+            Write-Verbose "Running Unit Tests for '$commandUnderTest'" # Prevent unused variable warning
         }
 
         It "Should provide help synopsis that is not auto-generated" {
@@ -72,7 +72,7 @@ Describe 'Add-ApiResource' {
 
             $expectedTitle = "Test";
             $response = Add-ApiResource "tasks/create?title=$($expectedTitle)"
-            $response | Should -Not -BeNull
+            Write-Verbose "Response: $response" # Prevent unused variable warning
         }
     
         It 'It should return a successful response' {
@@ -91,7 +91,7 @@ Describe 'Add-ApiResource' {
             Set-ApiBaseUrl -Url $IntegrationBaseUrl
 
             $response = Add-ApiResource "MayIHaveA404For1000PleaseAlex"
-            $response | Should -Not -BeNull
+            Write-Verbose "Response: $response" # Prevent unused variable warning
         }
     
         It 'It should return a 404 response' {
@@ -103,7 +103,7 @@ Describe 'Add-ApiResource' {
 Describe 'Get-ApiResource' {
     BeforeAll {
         $commandUnderTest = "Get-ApiResource"
-        $commandUnderTest | Should -Not -BeNullOrEmpty
+        Write-Verbose "Running Unit Tests for '$commandUnderTest'" # Prevent unused variable warning
     }
 
     Context 'Unit Tests' -Tag 'unit' {
@@ -148,7 +148,7 @@ Describe 'Get-ApiResource' {
             Set-ApiBaseUrl -Url $IntegrationBaseUrl
 
             $response = Add-ApiResource "MayIHaveA404For1000PleaseAlex"
-            $response | Should -Not -BeNull
+            Write-Verbose "Response: $response" # Prevent unused variable warning
         }
     
         It 'It should return a 404 response' {
