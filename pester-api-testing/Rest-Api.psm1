@@ -49,14 +49,17 @@ Function Add-ApiResource {
         [string]$Resource,
 
     	[Parameter(Mandatory=$False)]
-	    [hashtable]$Body
-    )
+	    [hashtable]$Body,
 
+        [Parameter(Mandatory=$False)]
+        [hashtable]$Headers
+    )
+    
     if($Body) {
         $Json = $Body | ConvertTo-Json
-        $Response = Invoke-WebRequest -Method Post -Uri "$($script:BaseUrl)$Resource" -Body $Json -Headers $script:Headers -SkipHttpErrorCheck 
+        $Response = Invoke-WebRequest -Method Post -Uri "$($script:BaseUrl)$Resource" -Body $Json -Headers $Headers -SkipHttpErrorCheck 
     } else {
-        $Response = Invoke-WebRequest -Method Post -Uri "$($script:BaseUrl)$Resource" -Headers $script:Headers -SkipHttpErrorCheck 
+        $Response = Invoke-WebRequest -Method Post -Uri "$($script:BaseUrl)$Resource" -Headers $Headers -SkipHttpErrorCheck 
     }
 
     Write-Output $Response
