@@ -1,0 +1,6 @@
+{
+    // enable the run/debug tests above test functions
+    "powershell.pester.codeLens": true,
+    // show detailed output
+    "powershell.pester.outputVerbosity": "Detailed"
+}

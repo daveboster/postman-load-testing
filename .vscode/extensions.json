@@ -1,0 +1,25 @@
+{
+    // See http://go.microsoft.com/fwlink/?LinkId=827846
+    // for the documentation about the extensions.json format
+    "recommendations": [
+        // Microsoft's PowerShell Extension
+        "ms-vscode.PowerShell",
+
+        // C# extension
+        "ms-dotnettools.csharp",
+
+        // Evaluating
+        // Markdown Linter
+        "DavidAnson.vscode-markdownlint",
+        // Test Explorer UI
+        "hbenl.vscode-test-explorer",
+        // Test Explorer Plugin - DotNet
+        "formulahendry.dotnet-test-explorer",
+
+        // Boster's Standard Repo Extensions
+        // Tons of markdown goodies (lists, tables of content, so much more)
+        "yzhang.markdown-all-in-one",
+        // Image-pasting for markdown
+        "mushan.vscode-paste-image"
+    ]
+}
