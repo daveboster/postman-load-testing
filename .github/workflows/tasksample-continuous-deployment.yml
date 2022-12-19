@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        dotnet: ['6.x']
+        dotnet: ['7.x']
 
     steps:
       - uses: actions/checkout@v2
@@ -31,10 +31,10 @@ jobs:
 
       - name: Build with dotnet
         run: dotnet build TaskSample/TaskSample.sln --configuration Release
-      
+
       - name: Unit tests
         run: dotnet test TaskSample/TaskSample.sln --configuration Release --no-build --no-restore --verbosity normal
-        
+
       - name: Publish with dotnet
         run: dotnet publish TaskSample/TaskApi/TaskApi.csproj -c Release -o ${{env.DOTNET_ROOT}}/task-api
 
