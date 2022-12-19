@@ -29,28 +29,28 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest]
-        dotnet: ['6.x']
+        dotnet: ['7.x']
         include:
           - os: ubuntu-latest
-            dotnet: '6.x'
+            dotnet: '7.x'
             publish: true
 
     steps:
       - name: Git Checkout
         uses: actions/checkout@v3
-        
+
       - name: Setup .Net
         uses: actions/setup-dotnet@v2
         with:
           dotnet-version: ${{ matrix.dotnet }}
-          
-      - name: Build with dotnet
-        run: dotnet build TaskSample/TaskSample.sln --configuration Release
-        
-      - name: Test with dotnet
-        run: dotnet test TaskSample/TaskSample.sln --configuration Release --no-build --no-restore --verbosity normal
-        
-      - name: Publish with dotnet
+
+      - name: Build Task Solutionoo
+        run: dotnet build TaskSample.sln --configuration Release
+
+      - name: Run Task Unit Tests
+        run: dotnet test TaskSample.sln --configuration Release --no-build --no-restore --verbosity normal
+
+      - name: Deploy Task API to Azure
         if: ${{ matrix.publish == 'true' }}
         run: dotnet publish TaskSample/TaskApi/TaskApi.csproj -c Release -o ${{env.DOTNET_ROOT}}/task-api
 
