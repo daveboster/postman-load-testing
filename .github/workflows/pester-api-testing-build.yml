@@ -1,4 +1,4 @@
-name: Build and Test
+name: Pester API Smoke Tests
 
 # References:
 #  - https://github.com/actions/setup-dotnet/blob/main/.github/workflows/test-dotnet.yml
@@ -32,7 +32,7 @@ jobs:
       - name: Run Rest-Api Helper Unit and Integration Tests
         shell: pwsh
         run: |
-          ./pester-api-testing/Invoke-RestApi-Tests.ps1 -IntegrationBaseUrl  'https://postman-load-test.azurewebsites.net/' -PassThru 
+          ./pester-api-testing/Invoke-RestApi-Tests.ps1 -IntegrationBaseUrl  'https://postman-load-test.azurewebsites.net/' -PassThru
 
       - name: Validate Api Tests Against Production 🤨
         shell: pwsh
