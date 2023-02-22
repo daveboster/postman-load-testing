@@ -15,7 +15,7 @@ BeforeAll {
     Set-ApiBaseUrl -Url $IntegrationBaseUrl
 
     function When([string]$A, [string]$Creates, [hashtable]$With) {
-        $headerAssumptions = @{'Accept' = 'application/json'; 'Content-Type' = 'application/json'}; 
+        $headerAssumptions = @{'Accept' = 'application/json'; 'Content-Type' = 'application/json'};
         $result = Add-ApiResource -Resource $Creates -Body $With -Headers $headerAssumptions
         return $result
     }
@@ -51,7 +51,7 @@ Describe "Creating Tasks for v2 '$IntegrationBaseUrl'" {
 
         $Then = When -A $UserNamedEnola -Creates $ANewTask -With @{ title=$BriefDescriptionOfWorkToBeDone }
         Write-Verbose "Then: $Then" # Prevent unused variable warning 😬
-        
+
     }
 
     # Then
@@ -72,4 +72,11 @@ Describe "Creating Tasks for v2 '$IntegrationBaseUrl'" {
         # see 'cause duh' 😂 (have to let some dev sacasm slip in)
     }
 
+}
+
+Describe "API should provide Swagger for API Discovery and Management" {
+    It 'Should return a 200 status code fpom the swagger endpoint' {
+        $response = Invoke-WebRequest -Uri "$($IntegrationBaseUrl)swagger/index.html"
+        $response.StatusCode | Should -Be 200
+    }
 }
