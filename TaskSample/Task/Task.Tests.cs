@@ -18,4 +18,11 @@ public class Tests
         Task task = new Task(expectedTitle);
         Assert.That(task.Title, Is.EqualTo(expectedTitle));
     }
+
+    [Test]
+    public void Create_Returns_TimecardIdentifier()
+    {
+        Task task = new Task();
+        Assert.That(task.Id, Is.Not.EqualTo(Guid.Empty));
+    }
 }
