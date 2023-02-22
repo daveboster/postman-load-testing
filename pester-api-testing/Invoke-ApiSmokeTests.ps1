@@ -1,5 +1,5 @@
-# Example: ./pester-api-testing/Invoke-ApiSmokeTests.ps1 -IntegrationBaseUrl 'https://localhost:7053/'                                                                                                   
-# Example: ./pester-api-testing/Invoke-ApiSmokeTests.ps1 -IntegrationBaseUrl 'https://postman-load-test.azurewebsites.net/' -PassThru 
+# Example: ./pester-api-testing/Invoke-ApiSmokeTests.ps1 -IntegrationBaseUrl 'https://localhost:7053/'
+# Example: ./pester-api-testing/Invoke-ApiSmokeTests.ps1 -IntegrationBaseUrl 'https://postman-load-test.azurewebsites.net/' -PassThru
 
 param (
     [Parameter(Mandatory=$False)]
