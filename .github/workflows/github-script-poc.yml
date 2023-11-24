@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Sandbox Testing
     environment:
-      name: ${{ env.project_name }}-${{ env.environment_name }}
+      name: GitHub.Script-Production
       url: ${{ steps.deploy-website.outputs.deployment_url }}
       
     steps:
