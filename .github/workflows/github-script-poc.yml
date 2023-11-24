@@ -32,11 +32,10 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               ref: context.ref,
-              task: task,
+              task: "deploy",
               auto_merge: false,
               description: "${{ env.deployment_description }}",
               required_contexts: [],
-              task: "deploy",
               environment: "${{ env.project_name }}-${{ env.environment_name }}",
               transient_environment: false,
               production_environment: ${{ env.is_production }}
