@@ -33,7 +33,7 @@ jobs:
               required_contexts: [],
               task: "deploy",
               environment: "${{ env.project_name }}-${{ env.environment_name }}",
-              production_environment: "${{ env.is_production }}"
+              production_environment: ${{ env.is_production }}
             });
             console.log(deployment);
             if (deployment.status === 201) {
@@ -60,5 +60,5 @@ jobs:
               description: "${{ env.deployment_description }}",
               environment_url: "${{ env.environment_url }}",
               environment: "${{ env.project_name }}-${{ env.environment_name }}",
-              production_environment: "${{ env.is_production }}"
+              production_environment: ${{ env.is_production }}
             });
