@@ -1,0 +1,13 @@
+name: github-script-poc
+on:
+  push:
+
+jobs:
+  poc-test:  
+    runs-on: ubuntu-latest
+    name: Build and Deploy Job
+    steps:
+      - name: View context attributes
+        uses: actions/github-script@v7
+        with:
+          script: console.log(context)
