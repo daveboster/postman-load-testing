@@ -13,6 +13,10 @@ jobs:
   poc-test:  
     runs-on: ubuntu-latest
     name: Sandbox Testing
+    environment:
+      name: 'Production'
+      url: ${{ steps.deploy-website.outputs.deployment_url }}
+      
     steps:
 #      - name: View context attributes
 #        uses: actions/github-script@v7
@@ -21,7 +25,7 @@ jobs:
 
       - name: Create Sample GitHub Deployment
         uses: actions/github-script@v4
-        id: create_github_deployment
+        id: github-deployment-create
         with:
           script: |
             const deployment = await github.repos.createDeployment({
@@ -43,18 +47,19 @@ jobs:
               throw new Error(`Failed to create deployment: ${deployment.status}`);
             }
             
+      - name: Deployment
+        id: deploy-website
+        run: echo "deployment_url=${{ environment_url }}" >> "$GITHUB_OUTPUT"
+        
       - name: Create Sample Deployment Status (completed)
         uses: actions/github-script@v4
-        id: create_github_deployment_status_completed
+        id: github-deployment-completed
         with:
           script: |
-            let deploymentId = "${{ steps.get_deployment.outputs.id }}";
-            let environmentUrl = "${{ steps.get_deployment.outputs.url }}";
-
             const deploymentStatus = await github.repos.createDeploymentStatus({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              deployment_id: "${{ steps.create_github_deployment.outputs.id }}",
+              deployment_id: "${{ steps.github-deployment-create.outputs.id }}",
               state: 'success',
               log_url: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
               description: "${{ env.deployment_description }}",
@@ -62,3 +67,11 @@ jobs:
               environment: "${{ env.project_name }}-${{ env.environment_name }}",
               production_environment: ${{ env.is_production }}
             });
+            
+      - name: Generate Deployment Summary
+        run: |
+          echo "This is the lead in sentence for the list" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY # this is a blank line
+          echo "- Lets add a bullet point" >> $GITHUB_STEP_SUMMARY
+          echo "- Lets add a second bullet point" >> $GITHUB_STEP_SUMMARY
+          echo "- How about a third one?" >> $GITHUB_STEP_SUMMARY
