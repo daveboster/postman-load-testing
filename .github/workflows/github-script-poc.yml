@@ -60,6 +60,7 @@ jobs:
             const deploymentStatus = await github.rest.repos.createDeploymentStatus({
               owner: context.repo.owner,
               repo: context.repo.repo,
+              auto_inactive: true,
               deployment_id: "${{ steps.github-deployment-create.outputs.id }}",
               state: 'success',
               log_url: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
