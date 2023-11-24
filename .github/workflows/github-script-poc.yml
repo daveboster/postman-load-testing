@@ -26,3 +26,9 @@ jobs:
               environment: "GitHub.Scripts (live)",
               production_environment: true
             });
+            console.log(deployment);
+            if (deployment.status === 201) {
+              core.setOutput('id', deployment.data.id);
+              return deployment.data;
+            } else {
+              throw ne
