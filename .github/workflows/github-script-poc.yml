@@ -23,6 +23,6 @@ jobs:
               auto_merge: false,
               description: "Sample GitHub-Script Deployment",
               required_contexts: [],
-              environment: "GitHub.Scripts (preview)",
-              production_environment: false
+              environment: "GitHub.Scripts (live)",
+              production_environment: true
             });
