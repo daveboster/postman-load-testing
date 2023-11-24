@@ -7,14 +7,14 @@ env:
   environment_name: Production
   is_production: false
   environment_url: https://postman-load-test.azurewebsites.net
-  deployment_description: Sample GitHub-Script Deployment
+  deployment_description: ${{ github.event.commits[0].message }}
   
 jobs:
   poc-test:  
     runs-on: ubuntu-latest
     name: Sandbox Testing
     environment:
-      name: GitHub.Script-Production
+      name: GitHub.Script:Production
       url: ${{ steps.deploy-website.outputs.deployment_url }}
       
     steps:
@@ -36,7 +36,7 @@ jobs:
               auto_merge: false,
               description: "${{ env.deployment_description }}",
               required_contexts: [],
-              environment: "${{ env.project_name }}-${{ env.environment_name }}",
+              environment: "${{ env.project_name }}:${{ env.environment_name }}",
               transient_environment: false,
               production_environment: ${{ env.is_production }}
             });
