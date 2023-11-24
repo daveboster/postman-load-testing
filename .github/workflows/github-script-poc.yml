@@ -28,15 +28,17 @@ jobs:
         id: github-deployment-create
         with:
           script: |
-            const deployment = await github.repos.createDeployment({
+            const deployment = await github.rest.repos.createDeployment({
               owner: context.repo.owner,
               repo: context.repo.repo,
               ref: context.ref,
+              task: task,
               auto_merge: false,
               description: "${{ env.deployment_description }}",
               required_contexts: [],
               task: "deploy",
               environment: "${{ env.project_name }}-${{ env.environment_name }}",
+              transient_environment: false,
               production_environment: ${{ env.is_production }}
             });
             console.log(deployment);
