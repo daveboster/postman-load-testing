@@ -24,7 +24,7 @@ jobs:
 #          script: console.log(context)
 
       - name: Create Sample GitHub Deployment
-        uses: actions/github-script@v4
+        uses: actions/github-script@v7
         id: github-deployment-create
         with:
           script: |
