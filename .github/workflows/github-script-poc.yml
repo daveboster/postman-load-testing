@@ -5,6 +5,7 @@ on:
 env:
   project_name: GitHub.Script
   environment_name: production
+  is_production: true
   environment_url: https://postman-load-test.azurewebsites.net
   deployment_description: Sample GitHub-Script Deployment
   
@@ -30,8 +31,9 @@ jobs:
               auto_merge: false,
               description: "${{ env.deployment_description }}",
               required_contexts: [],
+              task: "deploy",
               environment: "${{ env.project_name }}-${{ env.environment_name }}",
-              production_environment: true
+              production_environment: "${{ env.is_production }}"
             });
             console.log(deployment);
             if (deployment.status === 201) {
@@ -41,9 +43,9 @@ jobs:
               throw new Error(`Failed to create deployment: ${deployment.status}`);
             }
             
-      - name: Create Sample Deployment Status
+      - name: Create Sample Deployment Status (completed)
         uses: actions/github-script@v4
-        id: create_github_deployment_status
+        id: create_github_deployment_status_completed
         with:
           script: |
             let deploymentId = "${{ steps.get_deployment.outputs.id }}";
@@ -54,7 +56,9 @@ jobs:
               repo: context.repo.repo,
               deployment_id: "${{ steps.create_github_deployment.outputs.id }}",
               state: 'success',
+              log_url: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
               description: "${{ env.deployment_description }}",
               environment_url: "${{ env.environment_url }}",
               environment: "${{ env.project_name }}-${{ env.environment_name }}",
+              production_environment: "${{ env.is_production }}"
             });
