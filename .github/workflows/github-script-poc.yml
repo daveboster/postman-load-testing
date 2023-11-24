@@ -1,7 +1,13 @@
 name: github-script-poc
 on:
   push:
-
+  
+env:
+  project_name: GitHub.Script
+  environment_name: production
+  environment_url: https://postman-load-test.azurewebsites.net
+  deployment_description: Sample GitHub-Script Deployment
+  
 jobs:
   poc-test:  
     runs-on: ubuntu-latest
@@ -12,8 +18,9 @@ jobs:
 #        with:
 #          script: console.log(context)
 
-      - name: Register Sample Deployment
+      - name: Create Sample GitHub Deployment
         uses: actions/github-script@v4
+        id: create_github_deployment
         with:
           script: |
             const deployment = await github.repos.createDeployment({
@@ -21,9 +28,9 @@ jobs:
               repo: context.repo.repo,
               ref: context.ref,
               auto_merge: false,
-              description: "Sample GitHub-Script Deployment",
+              description: "${{ env.deployment_description }}",
               required_contexts: [],
-              environment: "GitHub.Scripts (live)",
+              environment: "${{ env.project_name }}-${{ env.environment_name }}",
               production_environment: true
             });
             console.log(deployment);
@@ -31,4 +38,23 @@ jobs:
               core.setOutput('id', deployment.data.id);
               return deployment.data;
             } else {
-              throw ne
+              throw new Error(`Failed to create deployment: ${deployment.status}`);
+            }
+            
+      - name: Create Sample Deployment Status
+        uses: actions/github-script@v4
+        id: create_github_deployment_status
+        with:
+          script: |
+            let deploymentId = "${{ steps.get_deployment.outputs.id }}";
+            let environmentUrl = "${{ steps.get_deployment.outputs.url }}";
+
+            const deploymentStatus = await github.repos.createDeploymentStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              deployment_id: "${{ steps.create_github_deployment.outputs.id }}",
+              state: 'success',
+              description: "${{ env.deployment_description }}",
+              environment_url: "${{ env.environment_url }}",
+              environment: "${{ env.project_name }}-${{ env.environment_name }}",
+            });
